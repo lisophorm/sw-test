@@ -14,26 +14,60 @@
   </head>
 
   <body>
-  <form>
-    <p>
-      <input type="text" value="http://lorempixel.com/400/200/abstract/randomtext/" id="imgurl"/>
-      <button type="button" id="loadImgBut">Load image</button>
-    </p>
-    <p>
-      <input type="text" value="http://lorempixel.com/400/200/abstract/randomtext/" id="cacheurl"/>
-      <button type="button" id="cacheUrlBut">Cache URL</button>
-    </p>
-    <p>
-      <textarea id="largeoutput"></textarea>
-      </p>
 
-      <input type="text" value="https://www.random.org/integers/?num=10&min=1&max=6&col=1&base=10&format=plain&rnd=new" id="loadurl"/>
-      <button type="button" id="loadUrlBut">Cache URL</button>
-    </p>
+
+  <table>
+    <tr>
+      <td>
+        <input type="checkbox" checked="checked" id="cachenewstuff"/> <label>Cache new requests</label>
+      </td>
+      <td>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>
+          <img id="gino" width="400" height="400" src="http://lorempixel.com/400/200/abstract/randomtext/" >
+
+        <p>
+          <input type="text" value="http://lorempixel.com/400/200/abstract/randomtext/" id="imgurl"/>
+          <button type="button" id="loadImgBut">Load image</button>
+        </p>
+      </td>
+      <td>
+        <p>
+          <input type="text" value="http://lorempixel.com/400/200/abstract/randomtext/" id="cacheurl"/>
+          <button type="button" id="cacheUrlBut">Cache URL</button>
+        </p>
+        <p>
+          <textarea id="largeoutput" rows="10"></textarea>
+        </p>
+
+        <input type="text" value="https://www.random.org/integers/?num=100&min=1&max=999&col=1&base=10&format=plain&rnd=new" id="loadurl"/>
+        <button type="button" id="loadUrlBut">eecute $.get()</button>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">    <hr/>    cached URLs
+
+      </td>
+
+    </tr>
+    <tr>
+      <td colspan="2">        <p>
+        <textarea id="cachedURLS" style="width:800px;" rows="10"></textarea>
+      </p>
+      </td>
+
+    </tr>
+  </table>
+  <form>
+
+
 
   </form>
-  <img id="gino" width="400" height="400" src="http://lorempixel.com/400/200/abstract/randomtext/" >
-    <h1>Lego Star Wars gallery</h1>
 
     <section></section>
 

@@ -65,7 +65,7 @@ window.onload = function() {
 
       imgSection.appendChild(myFigure);
       myFigure.appendChild(myImage);
-      myFigure.appendChild(myCaption);
+    //  myFigure.appendChild(myCaption);
 
     }, function(Error) {
       console.log(Error);
@@ -81,4 +81,67 @@ $("#loadUrlBut").click(function() {
     $( "#largeoutput" ).val( data.replace(/(\r\n|\n|\r)/gm,"") );
 
   });
+});
+$("#cacheUrlBut").click(function() {
+  console.log($("#cacheurl").val());
+  console.log('add url to cache');
+  addUrlToCache($("#cacheurl").val());
+});
+function addUrlToCache(url) {
+  window.fetch(url, {mode: 'no-cors'}).then(function(response) {
+    caches.open('/v8').then(function(cache) {
+      cache.put(url, response);
+    });
+  }).catch(function(error) {
+    alert(error);
+  });
+}
+$("#cachenewstuff").click(function() {
+
+  if($('#cachenewstuff').prop('checked')) {
+    send_message_to_sw('1');
+  } else {
+    send_message_to_sw('0');
+  }
 })
+function send_message_to_sw(message) {
+  // This wraps the message posting/response in a promise, which will
+  // resolve if the response doesn't contain an error, and reject with
+  // the error if it does. If you'd prefer, it's possible to call
+  // controller.postMessage() and set up the onmessage handler
+  // independently of a promise, but this is a convenient wrapper.
+  return new Promise(function(resolve, reject) {
+    var messageChannel = new MessageChannel();
+    messageChannel.port1.onmessage = function(event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+
+    // This sends the message data as well as transferring
+    // messageChannel.port2 to the service worker.
+    // The service worker can then use the transferred port to reply
+    // via postMessage(), which will in turn trigger the onmessage
+    // handler on messageChannel.port1.
+    // See
+    // https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
+    navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
+  });
+}
+
+registerBroadcastReceiver();
+
+function registerBroadcastReceiver() {
+  navigator.serviceWorker.onmessage = function(event) {
+    console.log("Broadcasted SW : ", event.data);
+
+    var data = event.data;
+
+    if (data.command == "broadcastOnRequest") {
+      console.log("Broadcastedage from the ServiceWorker : ", data.message.replace(/\,/g, '\r\n'));
+      $("#cachedURLS").val(data.message.replace(/\,/g, '\r\n'));
+    }
+  };
+}

@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-size: 10px;
+  font-size: 30px;
   font-family: sans-serif;
 }
 
@@ -12,7 +12,12 @@ h1 {
   height: 197px;
   background: url(star-wars-logo.jpg) no-repeat center;
 }
-
+input,textarea {
+  width: 500px;
+}
+input#cachenewstuff {
+  width:30px;
+}
 section {
   max-width: 640px;
   margin: 0 auto;
