@@ -19,43 +19,21 @@ this.addEventListener('install', function(event) {
   );
 });
 
-
-
 this.addEventListener('fetch', function(event) {
-  var response=3;
-  var requestURL = new URL(event.request.url);
-  console.log('fetch',requestURL.href);
-  if(requestURL.href.indexOf('chrome')!=-1) {
-    return 0;
-  }
-
-  var fetto=fetch(event.request).then(function(networkResponse) {
-      var barra={c:2};
-      var responsa=networkResponse.clone();
-      console.log('aa');
-      caches.open('/v8').then(function(cache) {
-          console.log('put in cache');
-          return cache.put(event.request,responsa);
-      }).then(function(){
-          console.log('risppnde');
-          barra.gino=24;
-          event.respondWith(responsa);
-      })
-
-
-  }).catch(function(ee) {
-      console.log(ee);
-
-      caches.match(event.request).then(function (response) {
-          console.log('da cache');
-          event.respondWith(response);
-      });
-  }).then(function (responsa) {
-      console.log('fetchto',responsa);
-     // event.respondWith(responsa);
-  });
-
-wrkSettings.tipo=4;
-
-
+    var requestURL = new URL(event.request.url);
+    console.log('fetch',requestURL.href);
+    if(requestURL.href.indexOf('chrome')!=-1) {
+        return 0;
+    }
+    event.respondWith(
+        caches.open('/v8').then(function(cache) {
+            return cache.match(event.request).then(function(response) {
+                var fetchPromise = fetch(event.request).then(function(networkResponse) {
+                    cache.put(event.request, networkResponse.clone());
+                    return networkResponse;
+                })
+                return response || fetchPromise;
+            })
+        })
+    );
 });
