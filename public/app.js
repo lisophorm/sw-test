@@ -1,7 +1,7 @@
 // register service worker
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function(reg) {
     
     if(reg.installing) {
       console.log('Service worker installing');
@@ -72,3 +72,13 @@ window.onload = function() {
     });
   }
 };
+$("#loadImgBut").click(function() {
+  console.log($("#imgurl").val());
+  $("#gino").attr("src",$("#imgurl").val());
+});
+$("#loadUrlBut").click(function() {
+  $.get( $("#loadurl").val(), function( data ) {
+    $( "#largeoutput" ).val( data.replace(/(\r\n|\n|\r)/gm,"") );
+
+  });
+})
